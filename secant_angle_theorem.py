@@ -58,7 +58,7 @@ class SecantAngleTheorem(Scene):
         labelA = Tex("A").next_to(dotA, LEFT)
         labelB = Tex("B").next_to(dotB, UR)
         labelC = Tex("C").next_to(dotC, DR)
-        labelD = Tex("D").next_to(dotD, DL)
+        labelD = Tex("D").next_to(dotD, UP, buff=0.2)
         labelE = Tex("E").next_to(dotE, DL)
 
         # Show A first (flash three times)
@@ -89,11 +89,12 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         # 4. Emphasise small arc DE = beta
         # -----------------------------------------------------------
-        theta_D = np.arctan2(D[1], D[0])
-        theta_E = np.arctan2(E[1], E[0])
-        arc_DE = Arc(radius=radius, start_angle=theta_D, angle=theta_E - theta_D)
+        # Draw the small arc directly between D and E
+        arc_DE = ArcBetweenPoints(D, E, radius=radius)
         arc_DE.set_color(GREEN)
-        beta_label = MathTex(r"\beta", color=GREEN).move_to(arc_DE.point_from_proportion(0.5)+0.3*IN)
+        beta_label = MathTex(r"\beta", color=GREEN).move_to(
+            arc_DE.point_from_proportion(0.5) + 0.3 * IN
+        )
         self.play(Create(arc_DE), FadeIn(beta_label))
         self.wait(0.5)
 
