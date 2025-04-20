@@ -135,6 +135,7 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         text_shift = RIGHT * 4
         formula1 = MathTex(r"\angle BEC = \angle A + \angle B").shift(text_shift)
+        self.play(Write(formula1, run_time=3, lag_ratio=0.12))
         #  flash angle
         self.flash_angle(B, E, C)
         
@@ -149,17 +150,17 @@ class SecantAngleTheorem(Scene):
 
         self.wait(2) 
 
-    def flash_angle(self, B, E, C):
-        ec_line = Line(E, C)
-        self.add(ec_line)
-        be_line = Line(E, B)
-        self.add(be_line)
-        angle_BEC = Angle(ec_line, be_line, radius=0.6, color=RED)
-        self.add(angle_BEC)
+    def flash_angle(self, point1, vertex, point2):
+        line1 = Line(vertex, point2)
+        self.add(line1)
+        line2 = Line(vertex, point1)
+        self.add(line2)
+        angle = Angle(line1, line2, radius=0.6, color=RED)
+        self.add(angle)
         for _ in range(3):
             self.play(
-                Indicate(angle_BEC, scale_factor=1.1),
-                Indicate(be_line, scale_factor=1.1),
-                Indicate(ec_line, scale_factor=1.1),
+                Indicate(angle, scale_factor=1.1),
+                Indicate(line2, scale_factor=1.1),
+                Indicate(line1, scale_factor=1.1),
             )
             self.wait(0.2) # final pause for viewer
