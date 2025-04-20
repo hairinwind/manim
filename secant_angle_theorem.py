@@ -109,9 +109,10 @@ class SecantAngleTheorem(Scene):
         # 6. Flash triangle BAE three times
         # -----------------------------------------------------------
         triangle_BAE = Polygon(B, A, E, stroke_color=BLUE)
-        self.add(triangle_BAE)  # keep outline for flashing
+        # Draw the triangle outline and keep it on screen
+        self.play(Create(triangle_BAE))
         for _ in range(3):
-            self.play(Indicate(triangle_BAE, color=BLUE, scale_factor=1.05))
+            self.play(Indicate(triangle_BAE, color=BLUE, scale_factor=1.1))
             self.wait(0.2)
 
         # -----------------------------------------------------------
