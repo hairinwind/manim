@@ -118,29 +118,48 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         # 7. Flash angle BEC three times
         # -----------------------------------------------------------
-        ec_line = Line(E, C)
-        self.add(ec_line)
-        angle_BEC = Angle(Line(E, B), Line(E, C), radius=0.6, other_angle=True, color=RED)
-        self.add(angle_BEC)
-        for _ in range(3):
-            self.play(
-                Indicate(angle_BEC, scale_factor=1.1),
-                Indicate(BE_line, scale_factor=1.1),
-                Indicate(ec_line, scale_factor=1.1),
-            )
-            self.wait(0.2)
+        # ec_line = Line(E, C)
+        # self.add(ec_line)
+        # angle_BEC = Angle(Line(E, B), Line(E, C), radius=0.6, other_angle=True, color=RED)
+        # self.add(angle_BEC)
+        # for _ in range(3):
+        #     self.play(
+        #         Indicate(angle_BEC, scale_factor=1.1),
+        #         Indicate(BE_line, scale_factor=1.1),
+        #         Indicate(ec_line, scale_factor=1.1),
+        #     )
+        #     self.wait(0.2)
 
         # -----------------------------------------------------------
         # 8. Text area for formulas (right side)
         # -----------------------------------------------------------
         text_shift = RIGHT * 4
         formula1 = MathTex(r"\angle BEC = \angle A + \angle B").shift(text_shift)
-        formula2 = MathTex(r"\angle BEC = \frac{\alpha}{2}").next_to(formula1, DOWN, aligned_edge=LEFT)
-        formula3 = MathTex(r"\angle DBE = \frac{\beta}{2}").next_to(formula2, DOWN, aligned_edge=LEFT)
-        formula4 = MathTex(r"\angle A = \angle BEC - \angle B = \frac{\alpha}{2} - \frac{\beta}{2} = \frac{\alpha - \beta}{2}").next_to(formula3, DOWN, aligned_edge=LEFT)
+        #  flash angle
+        self.flash_angle(B, E, C)
+        
 
-        for formula in [formula1, formula2, formula3, formula4]:
-            self.play(Write(formula, run_time=3, lag_ratio=0.12))
-            self.wait(0.8)
+        # formula2 = MathTex(r"\angle BEC = \frac{\alpha}{2}").next_to(formula1, DOWN, aligned_edge=LEFT)
+        # formula3 = MathTex(r"\angle DBE = \frac{\beta}{2}").next_to(formula2, DOWN, aligned_edge=LEFT)
+        # formula4 = MathTex(r"\angle A = \angle BEC - \angle B = \frac{\alpha}{2} - \frac{\beta}{2} = \frac{\alpha - \beta}{2}").next_to(formula3, DOWN, aligned_edge=LEFT)
 
-        self.wait(2)  # final pause for viewer
+        # for formula in [formula1, formula2, formula3, formula4]:
+        #     self.play(Write(formula, run_time=3, lag_ratio=0.12))
+        #     self.wait(0.8)
+
+        self.wait(2) 
+
+    def flash_angle(self, B, E, C):
+        ec_line = Line(E, C)
+        self.add(ec_line)
+        be_line = Line(E, B)
+        self.add(be_line)
+        angle_BEC = Angle(ec_line, be_line, radius=0.6, color=RED)
+        self.add(angle_BEC)
+        for _ in range(3):
+            self.play(
+                Indicate(angle_BEC, scale_factor=1.1),
+                Indicate(be_line, scale_factor=1.1),
+                Indicate(ec_line, scale_factor=1.1),
+            )
+            self.wait(0.2) # final pause for viewer
