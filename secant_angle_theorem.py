@@ -120,7 +120,7 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         BE_vec = B - E
         CE_vec = C - E
-        angle_BEC = Angle(Line(E, B), Line(E, C), radius=0.6, quadrant=(1, 1), color=RED)
+        angle_BEC = Angle(Line(E, B), Line(E, C), radius=0.6, other_angle=True, color=RED)
         self.add(angle_BEC)
         for _ in range(3):
             self.play(Indicate(angle_BEC, color=RED))
