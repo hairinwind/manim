@@ -34,6 +34,8 @@ class SecantAngleTheorem(Scene):
         # 1. Draw circle & basic points
         # -----------------------------------------------------------
         radius = 2.5
+        # Store radius for use in helper methods
+        self.radius = radius
         circle = Circle(radius=radius)
         self.play(Create(circle))
         self.wait(0.5)
@@ -58,7 +60,7 @@ class SecantAngleTheorem(Scene):
         labelA = Tex("A").next_to(dotA, LEFT)
         labelB = Tex("B").next_to(dotB, UR)
         labelC = Tex("C").next_to(dotC, DR)
-        labelD = Tex("D").next_to(dotD, UP, buff=0.2)
+        labelD = Tex("D").next_to(dotD, UP, buff=0.5)
         labelE = Tex("E").next_to(dotE, DL)
 
         # Show A first (flash three times)
@@ -74,6 +76,8 @@ class SecantAngleTheorem(Scene):
         arc_BC.set_color(ORANGE)
         alpha_label = MathTex(r"\alpha", color=ORANGE).move_to(arc_BC.point_from_proportion(0.5)+0.25*UP)
         self.play(Create(arc_BC), FadeIn(alpha_label))
+        # Store the alpha arc for later highlighting
+        self.arc_BC = arc_BC
         self.wait(0.5)
 
         # -----------------------------------------------------------
@@ -96,6 +100,8 @@ class SecantAngleTheorem(Scene):
             arc_DE.point_from_proportion(0.5) + 0.3 * IN
         )
         self.play(Create(arc_DE), FadeIn(beta_label))
+        # Store the beta arc for later highlighting
+        self.arc_DE = arc_DE
         self.wait(0.5)
 
         # -----------------------------------------------------------
@@ -145,7 +151,8 @@ class SecantAngleTheorem(Scene):
         formula2 = MathTex(r"\angle BEC = \frac{\alpha}{2}").next_to(formula1, DOWN, aligned_edge=LEFT)
         self.play(Write(formula2, run_time=3, lag_ratio=0.12))
         self.flash_angle(B, E, C)
-        # refresh arc BC
+        # Highlight the alpha arc
+        self.refresh_arc(self.arc_BC)
         
         formula3 = MathTex(r"\angle DBE = \frac{\beta}{2}").next_to(formula2, DOWN, aligned_edge=LEFT)
         self.play(Write(formula3, run_time=3, lag_ratio=0.12))
@@ -156,6 +163,16 @@ class SecantAngleTheorem(Scene):
         #     self.wait(0.8)
 
         self.wait(2) 
+
+    def refresh_arc(self, arc):
+        """
+        Highlights an existing arc using its original color.
+        """
+        # Flash the given arc three times
+        for _ in range(3):
+            self.play(Indicate(arc, scale_factor=1.1))
+            self.wait(0.2)
+        return arc
 
     def flash_angle(self, point1, vertex, point2):
         line1 = Line(vertex, point2)
