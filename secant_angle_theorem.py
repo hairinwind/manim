@@ -138,10 +138,17 @@ class SecantAngleTheorem(Scene):
         self.play(Write(formula1, run_time=3, lag_ratio=0.12))
         #  flash angle
         self.flash_angle(B, E, C)
+        self.flash_angle(B, A, E)
+        self.flash_angle(E, B, A)
         
 
-        # formula2 = MathTex(r"\angle BEC = \frac{\alpha}{2}").next_to(formula1, DOWN, aligned_edge=LEFT)
-        # formula3 = MathTex(r"\angle DBE = \frac{\beta}{2}").next_to(formula2, DOWN, aligned_edge=LEFT)
+        formula2 = MathTex(r"\angle BEC = \frac{\alpha}{2}").next_to(formula1, DOWN, aligned_edge=LEFT)
+        self.play(Write(formula2, run_time=3, lag_ratio=0.12))
+        self.flash_angle(B, E, C)
+        # refresh arc BC
+        
+        formula3 = MathTex(r"\angle DBE = \frac{\beta}{2}").next_to(formula2, DOWN, aligned_edge=LEFT)
+        self.play(Write(formula3, run_time=3, lag_ratio=0.12))
         # formula4 = MathTex(r"\angle A = \angle BEC - \angle B = \frac{\alpha}{2} - \frac{\beta}{2} = \frac{\alpha - \beta}{2}").next_to(formula3, DOWN, aligned_edge=LEFT)
 
         # for formula in [formula1, formula2, formula3, formula4]:
