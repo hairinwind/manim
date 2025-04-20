@@ -118,12 +118,16 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         # 7. Flash angle BEC three times
         # -----------------------------------------------------------
-        BE_vec = B - E
-        CE_vec = C - E
+        ec_line = Line(E, C)
+        self.add(ec_line)
         angle_BEC = Angle(Line(E, B), Line(E, C), radius=0.6, other_angle=True, color=RED)
         self.add(angle_BEC)
         for _ in range(3):
-            self.play(Indicate(angle_BEC, color=RED))
+            self.play(
+                Indicate(angle_BEC, scale_factor=1.1),
+                Indicate(BE_line, scale_factor=1.1),
+                Indicate(ec_line, scale_factor=1.1),
+            )
             self.wait(0.2)
 
         # -----------------------------------------------------------
