@@ -1,5 +1,9 @@
 from manim import *
 import numpy as np
+# Double the scene’s coordinate frame height to create extra vertical space
+config.frame_height = config.frame_height * 2
+# Double the output video pixel height to match the increased frame height
+config.pixel_height = config.pixel_height * 2
 
 # Helper -------------------------------------------------------------
 
@@ -30,6 +34,7 @@ class SecantAngleTheorem(Scene):
     provided. """
 
     def construct(self):
+        # Double the camera frame's height for extra vertical space, keep width constant
         # -----------------------------------------------------------
         # 1. Draw circle & basic points
         # -----------------------------------------------------------
@@ -156,6 +161,10 @@ class SecantAngleTheorem(Scene):
         
         formula3 = MathTex(r"\angle DBE = \frac{\beta}{2}").next_to(formula2, DOWN, aligned_edge=LEFT)
         self.play(Write(formula3, run_time=3, lag_ratio=0.12))
+        self.flash_angle(E, B, D)
+        self.refresh_arc(self.arc_DE)
+
+        
         # formula4 = MathTex(r"\angle A = \angle BEC - \angle B = \frac{\alpha}{2} - \frac{\beta}{2} = \frac{\alpha - \beta}{2}").next_to(formula3, DOWN, aligned_edge=LEFT)
 
         # for formula in [formula1, formula2, formula3, formula4]:
@@ -170,7 +179,7 @@ class SecantAngleTheorem(Scene):
         """
         # Flash the given arc three times
         for _ in range(3):
-            self.play(Indicate(arc, scale_factor=1.1))
+            self.play(Indicate(arc, scale_factor=1.5))
             self.wait(0.2)
         return arc
 
@@ -183,8 +192,8 @@ class SecantAngleTheorem(Scene):
         self.add(angle)
         for _ in range(3):
             self.play(
-                Indicate(angle, scale_factor=1.1),
-                Indicate(line2, scale_factor=1.1),
-                Indicate(line1, scale_factor=1.1),
+                Indicate(angle, scale_factor=1.5),
+                Indicate(line2, scale_factor=1.5),
+                Indicate(line1, scale_factor=1.5),
             )
             self.wait(0.2) # final pause for viewer
