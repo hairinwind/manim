@@ -39,22 +39,24 @@ class SecantAngleTheorem(Scene):
         # 1. Draw circle & basic points
         # -----------------------------------------------------------
         radius = 2.5
+        # Define the circle’s center and reposition dialog
+        center = np.array([0, 2, 0])
         # Store radius for use in helper methods
         self.radius = radius
-        circle = Circle(radius=radius)
+        circle = Circle(radius=radius).move_to(center)
         self.play(Create(circle))
         self.wait(0.5)
 
         # Coordinates for key points
-        A = np.array([-4, 0, 0])              # external point
+        A = center + np.array([-4, 0, 0])              # external point
         theta_B = PI / 4                      # 45°
         theta_C = -PI / 4                     # -45°
         B = circle.point_at_angle(theta_B)    # point on circle
         C = circle.point_at_angle(theta_C)    # point on circle
 
         # D & E (first intersections of secants with the circle)
-        D = first_circle_intersection(A, B, ORIGIN, radius)
-        E = first_circle_intersection(A, C, ORIGIN, radius)
+        D = first_circle_intersection(A, B, center, radius)
+        E = first_circle_intersection(A, C, center, radius)
 
         # Dots & labels
         dotA = Dot(A, color=YELLOW)
@@ -77,9 +79,9 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         # 2. Emphasise small arc BC = alpha
         # -----------------------------------------------------------
-        arc_BC = Arc(radius=radius, start_angle=theta_B, angle=theta_C - theta_B)
-        arc_BC.set_color(ORANGE)
-        alpha_label = MathTex(r"\alpha", color=ORANGE).move_to(arc_BC.point_from_proportion(0.5)+0.25*UP)
+        arc_BC = ArcBetweenPoints(C, B, radius=radius)
+        arc_BC.set_color(GREEN)
+        alpha_label = MathTex(r"\alpha", color=GREEN).move_to(arc_BC.point_from_proportion(0.5)+0.25*UP)
         self.play(Create(arc_BC), FadeIn(alpha_label))
         # Store the alpha arc for later highlighting
         self.arc_BC = arc_BC
@@ -144,7 +146,7 @@ class SecantAngleTheorem(Scene):
         # -----------------------------------------------------------
         # 8. Text area for formulas (right side)
         # -----------------------------------------------------------
-        text_shift = RIGHT * 4
+        text_shift = DOWN * 2
         formula1 = MathTex(r"\angle BEC = \angle A + \angle B").shift(text_shift)
         self.play(Write(formula1, run_time=3, lag_ratio=0.12))
         #  flash angle
@@ -165,7 +167,8 @@ class SecantAngleTheorem(Scene):
         self.refresh_arc(self.arc_DE)
 
         
-        # formula4 = MathTex(r"\angle A = \angle BEC - \angle B = \frac{\alpha}{2} - \frac{\beta}{2} = \frac{\alpha - \beta}{2}").next_to(formula3, DOWN, aligned_edge=LEFT)
+        formula4 = MathTex(r"\angle A = \angle BEC - \angle B = \frac{\alpha}{2} - \frac{\beta}{2} = \frac{\alpha - \beta}{2}").next_to(formula3, DOWN, aligned_edge=LEFT).shift(LEFT * 2)
+        self.play(Write(formula4, run_time=3, lag_ratio=0.12))
 
         # for formula in [formula1, formula2, formula3, formula4]:
         #     self.play(Write(formula, run_time=3, lag_ratio=0.12))
